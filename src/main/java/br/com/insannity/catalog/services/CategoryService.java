@@ -8,6 +8,8 @@ import br.com.insannity.catalog.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,28 +24,23 @@ public class CategoryService {
     private final CategoryRepository repository;
 
     @Transactional(readOnly = true)
-    public List<CategoryDao> findAll() {
-        List<Category> list = repository.findAll();
-        return list.stream().map(CategoryDao::new).collect(Collectors.toList());
+    public Page<CategoryDao> findAll(Pageable pageable) {
+        Page<Category> list = repository.findAll(pageable);
+        return list.map(CategoryDao::new);
     }
 
     @Transactional(readOnly = true)
     public CategoryDao findById(Long id) {
-        Category category = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found"));
-        return new CategoryDao(category);
+        Category enity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Category not found"));
+        return new CategoryDao(enity);
     }
 
     @Transactional
     public CategoryDao insertNew(CategoryDao categoryDao) {
-        Category category = new Category();
-        copyDtoEntity(categoryDao, category);
-        category = repository.save(category);
-        return new CategoryDao(category);
-    }
-
-
-    private void copyDtoEntity (CategoryDao categoryDao, Category category) {
-        category.setName(categoryDao.getName());
+        Category enity = new Category();
+        copyDtoEntity(categoryDao, enity);
+        enity = repository.save(enity);
+        return new CategoryDao(enity);
     }
 
     public void delete(Long id) {
@@ -56,12 +53,15 @@ public class CategoryService {
         }
     }
 
-    public CategoryDao update(Long id, CategoryDao categoryDao) {
-        Category category = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: "+id));
-        copyDtoEntity(categoryDao, category);
-        category = repository.save(category);
-        return new CategoryDao(category);
+    public CategoryDao update(Long id, CategoryDao dto) {
+        Category enity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: "+id));
+        copyDtoEntity(dto, enity);
+        enity = repository.save(enity);
+        return new CategoryDao(enity);
     }
 
+    private void copyDtoEntity (CategoryDao categoryDao, Category category) {
+        category.setName(categoryDao.getName());
+    }
 
 }

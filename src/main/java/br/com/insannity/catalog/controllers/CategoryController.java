@@ -3,6 +3,8 @@ package br.com.insannity.catalog.controllers;
 import br.com.insannity.catalog.payloads.CategoryDao;
 import br.com.insannity.catalog.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,8 +20,8 @@ public class CategoryController {
     private final CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDao>> findAll() {
-        List<CategoryDao> categories = service.findAll();
+    public ResponseEntity<Page<CategoryDao>> findAll(Pageable pageable) {
+        Page<CategoryDao> categories = service.findAll(pageable);
         return ResponseEntity.ok().body(categories);
     }
 
