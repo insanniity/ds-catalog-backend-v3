@@ -7,12 +7,14 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @ToString
 @Entity
 @Table(name = "tbl_category")
@@ -21,5 +23,9 @@ import java.io.Serializable;
 public class Category extends AbstractEntity {
 
     private String name;
+
+    @ManyToMany(mappedBy = "categories")
+    @Setter(AccessLevel.PROTECTED)
+    private Set<Product> products = new LinkedHashSet<>();
 
 }

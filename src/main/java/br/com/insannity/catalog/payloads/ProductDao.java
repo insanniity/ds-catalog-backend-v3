@@ -34,10 +34,7 @@ public class ProductDao {
         this.price = entity.getPrice();
         this.imgUrl = entity.getImgUrl();
         this.date = entity.getDate();
+        entity.getCategories().forEach(category -> this.categories.add(category.getName()));
     }
 
-    public ProductDao(Product entity, Set<Category> categories) {
-        this(entity);
-        categories.forEach(category -> this.categories.add(category.getName()));
-    }
 }

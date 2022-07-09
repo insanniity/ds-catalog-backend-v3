@@ -14,7 +14,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 @ToString
 @Entity
 @Table(name = "tbl_product")
@@ -31,6 +31,7 @@ public class Product extends AbstractEntity{
     private Instant date;
 
     @ManyToMany
+    @Setter(AccessLevel.PROTECTED)
     @JoinTable(name = "tbl_product_category",
         joinColumns = @JoinColumn(name = "product_id"),
         inverseJoinColumns = @JoinColumn(name = "category_id")

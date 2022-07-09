@@ -26,13 +26,13 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductDao> findAll(Pageable pageable) {
         Page<Product> list = repository.findAll(pageable);
-        return list.map(prod ->  new ProductDao(prod, prod.getCategories()));
+        return list.map(ProductDao::new);
     }
 
     @Transactional(readOnly = true)
     public ProductDao findById(Long id) {
         Product enity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found"));
-        return new ProductDao(enity, enity.getCategories());
+        return new ProductDao(enity);
     }
 
     @Transactional
