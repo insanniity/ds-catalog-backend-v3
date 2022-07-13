@@ -1,6 +1,7 @@
 package br.com.insannity.catalog.controllers;
 
 import br.com.insannity.catalog.payloads.UserDao;
+import br.com.insannity.catalog.payloads.UserInsertDao;
 import br.com.insannity.catalog.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -31,14 +33,14 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDao> insertNew(@RequestBody UserDao dao) {
+    public ResponseEntity<UserDao> insertNew(@Valid @RequestBody UserInsertDao dao) {
         UserDao newdao = service.insertNew(dao);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dao.getId()).toUri();
         return ResponseEntity.created(uri).body(newdao);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDao> update(@PathVariable Long id, @RequestBody UserDao dao) {
+    public ResponseEntity<UserDao> update(@PathVariable Long id,@Valid @RequestBody UserInsertDao dao) {
         UserDao newdao = service.update(id, dao);
         return ResponseEntity.ok().body(newdao);
     }

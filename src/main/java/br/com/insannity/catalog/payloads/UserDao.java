@@ -3,6 +3,9 @@ package br.com.insannity.catalog.payloads;
 import br.com.insannity.catalog.entities.User;
 import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,10 +18,13 @@ import java.util.List;
 public class UserDao {
 
     private Long id;
+    @NotBlank(message = "Name is required")
     private String firstName;
+    @NotBlank(message = "Name is required")
     private String lastName;
+    @Email(message = "Email not valid")
     private String email;
-    private String password;
+
     private List<String> roles = new LinkedList<>();
 
     public UserDao(User entity) {
@@ -26,7 +32,6 @@ public class UserDao {
         this.firstName = entity.getFirstName();
         this.lastName = entity.getLastName();
         this.email = entity.getEmail();
-        this.password = entity.getPassword();
         entity.getRoles().forEach(role -> this.roles.add(role.getAuthority()));
     }
 }
