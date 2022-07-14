@@ -13,3 +13,11 @@ server:
   port: ${SERVER_PORT:8080}
   servlet:
     context-path: /api/v1
+security:
+  oauth2:
+    client:
+      client-id: sistema-pontoini
+      client-secret: sistema-pontoini123
+jwt:
+  secret: MY-JWT-SCRET
+  duration: 2592000

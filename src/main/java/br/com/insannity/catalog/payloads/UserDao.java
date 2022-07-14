@@ -25,6 +25,8 @@ public class UserDao {
     @Email(message = "Email not valid")
     private String email;
 
+    private Boolean enabled;
+
     private List<String> roles = new LinkedList<>();
 
     public UserDao(User entity) {

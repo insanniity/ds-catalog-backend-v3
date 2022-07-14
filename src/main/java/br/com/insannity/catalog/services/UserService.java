@@ -8,16 +8,21 @@ import br.com.insannity.catalog.payloads.UserInsertDao;
 import br.com.insannity.catalog.repositories.RoleRepository;
 import br.com.insannity.catalog.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+@Slf4j
+public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final RoleRepository roleRepository;
@@ -64,8 +69,16 @@ public class UserService {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
+        entity.setEnabled(dto.getEnabled());
         dto.getRoles().forEach(role -> {
             entity.getRoles().add(roleRepository.findByAuthority(role));
+        });
+    }
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return repository.findByEmail(username).orElseThrow(()-> {
+            log.error("User not found: "+username);
+            return new UsernameNotFoundException("User not found");
         });
     }
 
