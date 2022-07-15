@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
 
-    public boolean isAdmin() {
-        log.info("isAdmin");
+    public boolean isAdmin(String codigo) {
+        log.warn("isAdmin");
+        log.warn(codigo);
         return true;
     }
 

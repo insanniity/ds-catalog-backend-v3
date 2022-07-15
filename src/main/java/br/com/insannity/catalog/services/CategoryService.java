@@ -16,14 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@PreAuthorize("@authService.isAdmin()")
+@PreAuthorize("@authService.isAdmin(#codigo)")
 public class CategoryService {
 
     private final CategoryRepository repository;
-    private final AuthService authService;
 
     @Transactional(readOnly = true)
-    public Page<CategoryDao> findAll(Pageable pageable) {
+    public Page<CategoryDao> findAll(String codigo  ,Pageable pageable) {
         Page<Category> list = repository.findAll(pageable);
         return list.map(CategoryDao::new);
     }

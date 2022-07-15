@@ -19,8 +19,8 @@ public class CategoryController {
     private final CategoryService service;
 
     @GetMapping
-    public ResponseEntity<Page<CategoryDao>> findAll(Pageable pageable) {
-        Page<CategoryDao> categories = service.findAll(pageable);
+    public ResponseEntity<Page<CategoryDao>> findAll(@RequestParam String codigo ,Pageable pageable) {
+        Page<CategoryDao> categories = service.findAll(codigo, pageable);
         return ResponseEntity.ok().body(categories);
     }
 
