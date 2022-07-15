@@ -16,8 +16,8 @@ server:
 security:
   oauth2:
     client:
-      client-id: sistema-pontoini
-      client-secret: sistema-pontoini123
+      client-id: dscatalog
+      client-secret: dscatalog123
 jwt:
   secret: MY-JWT-SCRET
   duration: 2592000

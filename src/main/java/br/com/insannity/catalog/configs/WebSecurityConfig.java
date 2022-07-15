@@ -14,41 +14,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig  {
 
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final UserDetailsService userDetailsService;
+//    private final BCryptPasswordEncoder passwordEncoder;
+//    private final UserDetailsService userDetailsService;
 
-    AuthenticationManager authenticationManager;
+//    AuthenticationManager authenticationManager;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
-    }
-
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/**");
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-        authenticationManager = authenticationManagerBuilder.build();
-
-        http.csrf().disable().cors().disable()
-                .authorizeHttpRequests().antMatchers("/oauth/token").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .authenticationManager(authenticationManager)
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        return http.build();
     }
 
 
