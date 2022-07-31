@@ -1,13 +1,18 @@
 package br.com.insannity.catalog.payloads;
 
-import br.com.insannity.catalog.entities.User;
-import lombok.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import java.util.LinkedList;
-import java.util.List;
+
+import br.com.insannity.catalog.entities.User;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter

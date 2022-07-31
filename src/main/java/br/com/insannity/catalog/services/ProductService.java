@@ -1,20 +1,19 @@
 package br.com.insannity.catalog.services;
 
-import br.com.insannity.catalog.entities.Category;
-import br.com.insannity.catalog.entities.Product;
-import br.com.insannity.catalog.exceptions.DatabaseException;
-import br.com.insannity.catalog.exceptions.EntityNotFoundException;
-import br.com.insannity.catalog.payloads.CategoryDao;
-import br.com.insannity.catalog.payloads.ProductDao;
-import br.com.insannity.catalog.repositories.CategoryRepository;
-import br.com.insannity.catalog.repositories.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import br.com.insannity.catalog.entities.Product;
+import br.com.insannity.catalog.exceptions.DatabaseException;
+import br.com.insannity.catalog.exceptions.EntityNotFoundException;
+import br.com.insannity.catalog.payloads.ProductDao;
+import br.com.insannity.catalog.repositories.CategoryRepository;
+import br.com.insannity.catalog.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

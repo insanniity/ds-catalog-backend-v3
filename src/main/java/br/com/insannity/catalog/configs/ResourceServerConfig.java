@@ -1,12 +1,12 @@
 package br.com.insannity.catalog.configs;
 
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,21 +19,20 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableResourceServer
 @RequiredArgsConstructor
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    private final Environment environment;
+    // private final Environment environment;
     private final JwtTokenStore tokenStore;
 
 
     private static final String[] PUBLIC = {"/oauth/**", "/oauth/authorize/**", "/actuator/**", "/h2/**"};
-
     private static final String[] ADMIN = {"/users/**"};
     private static final String[] OPERADOR = {"/products/**", "/categories/**"};
+    private static final String[] GET = {"/products/**", "/categories/**"};
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
@@ -50,12 +49,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 //        http.authenticationProvider(authenticationProvider());
         http.authorizeRequests()
-                .anyRequest().permitAll();
-//                .antMatchers(PUBLIC).permitAll()
-//                .antMatchers(HttpMethod.GET ,OPERADOR).permitAll()
-//                .antMatchers(ADMIN).hasAnyRole("ADMIN")
-//                .antMatchers(OPERADOR).hasAnyRole("ADMIN", "OPERATOR")
-//                .anyRequest().authenticated();
+                // .anyRequest().permitAll();
+               .antMatchers(PUBLIC).permitAll()
+               .antMatchers(HttpMethod.GET ,GET).permitAll()
+               .antMatchers(ADMIN).hasAnyRole("ADMIN")
+               .antMatchers(OPERADOR).hasAnyRole("ADMIN", "OPERATOR")
+               .anyRequest().authenticated();
 
     }
 

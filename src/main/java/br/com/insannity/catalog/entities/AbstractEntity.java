@@ -1,12 +1,17 @@
 package br.com.insannity.catalog.entities;
 
-import lombok.Getter;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+
+import lombok.Getter;
 
 @Getter
 @MappedSuperclass

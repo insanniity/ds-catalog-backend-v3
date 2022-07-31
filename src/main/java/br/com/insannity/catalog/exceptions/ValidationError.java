@@ -1,18 +1,22 @@
 package br.com.insannity.catalog.exceptions;
 
-import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @ToString
 public class ValidationError extends StandardError {
-    private static final long serialVersionUID = 1L;
 
     private List<FieldMessage> errors = new ArrayList<>();
 
