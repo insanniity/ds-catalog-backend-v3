@@ -34,6 +34,7 @@ public class UserDao {
         this.firstName = entity.getFirstName();
         this.lastName = entity.getLastName();
         this.email = entity.getEmail();
+        this.enabled = entity.isEnabled();
         entity.getRoles().forEach(role -> this.roles.add(role.getAuthority()));
     }
 }

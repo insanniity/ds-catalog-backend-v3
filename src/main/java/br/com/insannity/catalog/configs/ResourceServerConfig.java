@@ -29,6 +29,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     private final Environment environment;
     private final JwtTokenStore tokenStore;
 
+
     private static final String[] PUBLIC = {"/oauth/**", "/oauth/authorize/**", "/actuator/**", "/h2/**"};
 
     private static final String[] ADMIN = {"/users/**"};
@@ -47,12 +48,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        http.authenticationProvider(authenticationProvider());
         http.authorizeRequests()
-                .antMatchers(PUBLIC).permitAll()
-                .antMatchers(HttpMethod.GET ,OPERADOR).permitAll()
-                .antMatchers(ADMIN).hasAnyRole("ADMIN")
-                .antMatchers(OPERADOR).hasAnyRole("ADMIN", "OPERATOR")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+//                .antMatchers(PUBLIC).permitAll()
+//                .antMatchers(HttpMethod.GET ,OPERADOR).permitAll()
+//                .antMatchers(ADMIN).hasAnyRole("ADMIN")
+//                .antMatchers(OPERADOR).hasAnyRole("ADMIN", "OPERATOR")
+//                .anyRequest().authenticated();
 
     }
 

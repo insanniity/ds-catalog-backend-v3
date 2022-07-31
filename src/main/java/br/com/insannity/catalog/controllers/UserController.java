@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/Users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 

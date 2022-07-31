@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public Page<UserDao> findAll(Pageable pageable) {
@@ -43,7 +45,7 @@ public class UserService implements UserDetailsService {
     public UserDao insertNew(UserInsertDao dto) {
         User entity = new User();
         copyDtoEntity(dto, entity);
-        entity.setPassword(dto.getPassword());
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity = repository.save(entity);
         return new UserDao(entity);
     }
@@ -61,6 +63,9 @@ public class UserService implements UserDetailsService {
     public UserDao update(Long id, UserInsertDao dto) {
         User entity = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Id not found: "+id));
         copyDtoEntity(dto, entity);
+        if(!dto.getPassword().isEmpty() && !dto.getPassword().isBlank() && dto.getPassword() != null && dto.getPassword().length() > 1) {
+            entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
         entity = repository.save(entity);
         return new UserDao(entity);
     }
@@ -70,6 +75,7 @@ public class UserService implements UserDetailsService {
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());
         entity.setEnabled(dto.getEnabled());
+        entity.getRoles().clear();
         dto.getRoles().forEach(role -> {
             entity.getRoles().add(roleRepository.findByAuthority(role));
         });
