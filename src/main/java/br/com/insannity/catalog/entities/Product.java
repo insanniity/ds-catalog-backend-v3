@@ -30,7 +30,7 @@ public class Product extends AbstractEntity{
     private String imgUrl;
     private Instant date;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Setter(AccessLevel.PROTECTED)
     @JoinTable(name = "tbl_product_category",
         joinColumns = @JoinColumn(name = "product_id"),
